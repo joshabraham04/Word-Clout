@@ -59,11 +59,10 @@ def getTweets(screenName):
         tweet.text.encode('utf8')] for tweet in tweetList]
     
         # writing to the csv file
-        with open(screenName + '_Tweets.csv', 'w+', encoding='utf8') as f:
+        with open(screenName + '_Tweets.csv', 'w', encoding='utf8') as f:
             writer = csv.writer(f)
             writer.writerow(['ID', 'Timestamp', 'Content'])
             writer.writerows(outTweets)
             
-getTweets(candidates[0])
-#for x in candidates:
-#    getTweets(x)
+for x in candidates:
+    getTweets(x)
