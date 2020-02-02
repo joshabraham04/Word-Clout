@@ -9,9 +9,9 @@ TweetBlob = TextBlob
 tweetCount = 0
 TweetBox = []  # array of string objects
 WordBox = []
-fileName = ""
-wordMap = ""
-
+fileName = ""  
+imageName=""
+wordMap = ""  
 
 ###########
 # METHODS #
@@ -28,12 +28,11 @@ def WordCounter(str):
             counts[word] += 1
         else:
             counts[word] = 1
-
+    
     # Returns a dictionary
     return counts
 
-
-# Cleans up the CSV Files and removes the white spaces and unicode
+# Cleans up the CSV Files and removes the white spaces and unicode 
 def DataCleaner(file):
     with open(file, 'r+', errors='ignore') as f:
         # Converts the lines in the file into string lists
@@ -47,11 +46,10 @@ def DataCleaner(file):
         f.truncate()
         f.close()
 
-
 # Parses through presidential candidates and retrieves datasets
 def CSVfilename(candidateName):
     if candidateName == 'michaelbennet':
-        fileName = 'MichaelBennet_Tweets.csv'
+        fileName =  'MichaelBennet_Tweets.csv'
         return fileName
     elif candidateName == 'joebiden':
         fileName = 'JoeBiden_Tweets.csv'
@@ -62,7 +60,7 @@ def CSVfilename(candidateName):
     elif candidateName == 'petebuttigieg':
         fileName = 'PeteButtigieg_Tweets.csv'
         return fileName
-    elif candidateName == 'tulsiGabbard':
+    elif candidateName == 'tulsigabbard':
         fileName = 'TulsiGabbard_Tweets.csv'
         return fileName
     elif candidateName == 'amyklobuchar':
@@ -93,8 +91,53 @@ def CSVfilename(candidateName):
         fileName = 'GovBillWeld_Tweets.csv'
         return fileName
     else:
-        print("No candidate recognized, double check the name.")
-
+        print("No candidate recognized, double check the name." )
+        
+def imageProcessor(candidateName):
+    if candidateName == 'michaelbennet':
+        imageName = 'MichaelBennet.png'
+        return imageName
+    elif candidateName == 'joebiden':
+        imageName = 'JoeBiden.png'
+        return imageName
+    elif candidateName == 'mikebloomberg':
+        imageName = 'MikeBloomberg.png'
+        return imageName
+    elif candidateName == 'petebuttigieg':
+        imageName = 'PeteButtigieg.png'
+        return imageName
+    elif candidateName == 'tulsigabbard':
+        imageName = 'TulsiGabbard.png'
+        return imageName
+    elif candidateName == 'amyklobuchar':
+        imageName = 'AmyKlobuchar.png'
+        return imageName
+    elif candidateName == 'devalpatrick':
+        imageName = 'PatrickDeval.png'
+        return imageName
+    elif candidateName == 'berniesanders':
+        imageName = 'BernieSanders.png'
+        return imageName
+    elif candidateName == 'tomsteyer':
+        imageName = 'TomSteyer.png'
+        return imageName
+    elif candidateName == 'elizabethwarren':
+        imageName = 'EWarren.png'
+        return imageName
+    elif candidateName == 'andrewyang':
+        imageName = 'AndrewYang.png'
+        return imageName
+    elif candidateName == 'donaldtrump':
+        imageName = 'RealDonaldTrump.png'
+        return imageName
+    elif candidateName == 'joewalsh':
+        imageName = 'WalshFreedom.png'
+        return imageName
+    elif candidateName == 'williamweld':
+        imageName = 'GovBillWeld.png'
+        return imageName
+    else:
+        print("No image file found, try again." )
 
 ###################
 # FILE PROCESSING #
@@ -105,22 +148,23 @@ candidates = ["MichaelBennet", "JoeBiden", "MikeBloomberg", "PeteButtigieg", "Tu
               "AmyKlobuchar", "DevalPatrick", "BernieSanders", "TomSteyer", "EWarren",
               "AndrewYang", "RealDonaldTrump", "WalshFreedom", "GovBillWeld"]
 
-# Collect tweets into datasets
-# for x in candidates:
-#   getTweets(x)
 
-# Menu and Candidate Choice
-while True:
-    try:
-        candidateName = input("Choose your candidate: ")
-        break
-    except ValueError:
-        print("That's not a valid name! Try again!")
+# Menu, Collection of Tweets and Candidate Choice
+print()
+print("Welcome to the 2020 Presidential Candidates' \"Word Clout\"")
+print("A comprehensive word cloud graphic of each candidate's values")
+collectTweets = input("Would you like to collect presidential tweets? It may take a few minutes:" + "(" + "yes/no?" + ") ")
+print()
+if collectTweets == 'yes':
+    for x in candidates:
+        getTweets(x)
 
+candidateName = input("Choose your candidate: ")
+    
 # Normalizes the name answers and assign files
 candidateName = candidateName.lower().replace(" ", "")
 fileName = CSVfilename(candidateName)
-fileName = "Tweets Scraped/" + fileName
+imageName = imageProcessor(candidateName)
 DataCleaner(fileName)
 
 with open(fileName) as csv_file:
@@ -133,14 +177,12 @@ with open(fileName) as csv_file:
         for j in range(0, len(wordsAdding)):
             WordBox.append(wordsAdding[j].lower())
             WordBox[j].lower()
-
+            
     # Removes the excluded words from the dictionary (ie articles and auxiallary verbs) 
     WordBox = ExclusionDictionary.removeExcluded(WordBox, ExclusionDictionary.excludedDictionary)
-
+    
     candidateDictionary = WordCounter(WordBox)
-
+    
     for word in candidateDictionary:
-        for occurrence in range(0, candidateDictionary[word]):
-            wordMap += (word + " ")
-
-    # print(wordMap)
+        for occurence in range (0, candidateDictionary[word]):
+            wordMap +=  (word + " ")
