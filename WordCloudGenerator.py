@@ -7,22 +7,21 @@ import matplotlib.pyplot as plt
 import wordcloud
 from ElectRobo import wordMap
 
+# old
+# DataFrame = pd.read_csv("SampleCSV.csv")
+# DataFrame.head()
+# DataFrame[["name", "fruit", "number"]].head()
+# fruit = DataFrame.groupby("name")
+# fruit.describe().head()
+# fruit.mean().sort_values(by="number", ascending=False).head()
+# text = DataFrame.fruit[2]
 
-DataFrame = pd.read_csv("SampleCSV.csv")
-DataFrame.head()
-DataFrame[["name", "fruit", "number"]].head()
-fruit = DataFrame.groupby("name")
-fruit.describe().head()
-fruit.mean().sort_values(by="number", ascending=False).head()
-text = DataFrame.fruit[2]
-#print(text)
 mask = np.array(Image.open("Masks/AndrewYang.png"))
-mask
-
 
 imageColors = wordcloud.ImageColorGenerator(mask)
 
-AK = wordcloud.WordCloud(background_color="white", mask=mask, contour_color='firebrick', contour_width=3,max_words=1000000)
+AK = wordcloud.WordCloud(background_color="white", mask=mask, contour_color='firebrick', contour_width=3,
+                         max_words=1000000)
 AK.generate(wordMap)
 AK.to_file("YandrewAang.png")
 
