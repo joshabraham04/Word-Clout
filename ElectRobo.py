@@ -1,3 +1,7 @@
+#############################################
+# RUN THESE FILES OFF WordCloudGenerator.py #
+#############################################
+
 import csv
 import ExclusionDictionary
 from TweetScraper import getTweets
@@ -11,7 +15,8 @@ TweetBox = []  # array of string objects
 WordBox = []
 fileName = ""  
 imageName=""
-wordMap = ""  
+wordMap = ""
+appCycle = True  
 
 ###########
 # METHODS #
@@ -45,6 +50,8 @@ def DataCleaner(file):
         f.writelines(line for line in lines if line.strip())
         f.truncate()
         f.close()
+
+# INCOMING: BLOCK OF CODE (too lazy to do it any better, my b)
 
 # Parses through presidential candidates and retrieves datasets
 def CSVfilename(candidateName):
@@ -92,7 +99,8 @@ def CSVfilename(candidateName):
         return fileName
     else:
         print("No candidate recognized, double check the name." )
-        
+
+# Parses through presidential candidates and retrieves image files        
 def imageProcessor(candidateName):
     if candidateName == 'michaelbennet':
         imageName = 'MichaelBennet.png'
@@ -158,16 +166,17 @@ print()
 if collectTweets == 'yes':
     for x in candidates:
         getTweets(x)
-
-candidateName = input("Choose your candidate: ")
+        
+candidateName = input("Choose your candidate (type exit to terminate): ")
+if candidateName == 'exit':
+    appCycle = False
     
 # Normalizes the name answers and assign files
 candidateName = candidateName.lower().replace(" ", "")
 fileName = CSVfilename(candidateName)
 imageName = imageProcessor(candidateName)
-fileName = "Tweets Scraped/" + fileName
 DataCleaner(fileName)
-
+    
 with open(fileName) as csv_file:
     TestData2 = csv.reader(csv_file, delimiter=',')
     for lines in TestData2:
@@ -178,12 +187,12 @@ with open(fileName) as csv_file:
         for j in range(0, len(wordsAdding)):
             WordBox.append(wordsAdding[j].lower())
             WordBox[j].lower()
-            
-    # Removes the excluded words from the dictionary (ie articles and auxiallary verbs) 
-    WordBox = ExclusionDictionary.removeExcluded(WordBox, ExclusionDictionary.excludedDictionary)
-    
-    candidateDictionary = WordCounter(WordBox)
-    
-    for word in candidateDictionary:
-        for occurence in range (0, candidateDictionary[word]):
-            wordMap +=  (word + " ")
+                
+# Removes the excluded words from the dictionary (ie articles and auxiallary verbs) 
+WordBox = ExclusionDictionary.removeExcluded(WordBox, ExclusionDictionary.excludedDictionary)
+        
+candidateDictionary = WordCounter(WordBox)
+        
+for word in candidateDictionary:
+    for occurence in range (0, candidateDictionary[word]):
+        wordMap +=  (word + " ")
