@@ -3,7 +3,7 @@ import csv
 import json
 
 # load Twitter API credentials
-with open('C:/Users/Josh Abraham/Desktop/SwampHacks/Twitter Analysis/Twitter-Politics-WebScraper/TwitterCredentials.json') as cred_data:
+with open('TwitterCredentials.json') as cred_data:
     info = json.load(cred_data)
     consumer_key = info['Consumer_Key']
     consumer_secret = info['Consumer_Secret']
