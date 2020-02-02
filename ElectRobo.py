@@ -165,6 +165,7 @@ candidateName = input("Choose your candidate: ")
 candidateName = candidateName.lower().replace(" ", "")
 fileName = CSVfilename(candidateName)
 imageName = imageProcessor(candidateName)
+fileName = "Tweets Scraped/" + fileName
 DataCleaner(fileName)
 
 with open(fileName) as csv_file:
