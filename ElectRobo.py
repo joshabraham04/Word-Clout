@@ -9,8 +9,9 @@ TweetBlob = TextBlob
 tweetCount = 0
 TweetBox = []  # array of string objects
 WordBox = []
-fileName = ""  
-wordMap = ""  
+fileName = ""
+wordMap = ""
+
 
 ###########
 # METHODS #
@@ -27,28 +28,30 @@ def WordCounter(str):
             counts[word] += 1
         else:
             counts[word] = 1
-    
+
     # Returns a dictionary
     return counts
 
-# Cleans up the CSV Files and removes the white spaces and unicode 
+
+# Cleans up the CSV Files and removes the white spaces and unicode
 def DataCleaner(file):
     with open(file, 'r+', errors='ignore') as f:
         # Converts the lines in the file into string lists
         lines = f.readlines()
         # For each line, removes the foreign characters and reassigns the line 
         for i in range(0, len(lines)):
-            lines[i] = lines[i].translate({ord(x): None for x in 'rtœrtâ€™ðÿ‘ðÿ¼ðÿ‡ºðÿ‡¸ðÿ’Ÿ˜Ÿ'})
+            lines[i] = lines[i].translate({ord(x): None for x in 'œâ€™ðÿ‘ðÿ¼ðÿ‡ºðÿ‡¸ðÿ’Ÿ˜Ÿ'})
         f.seek(0)
         # Removes the whitespaces
         f.writelines(line for line in lines if line.strip())
         f.truncate()
         f.close()
 
+
 # Parses through presidential candidates and retrieves datasets
 def CSVfilename(candidateName):
     if candidateName == 'michaelbennet':
-        fileName =  'MichaelBennet_Tweets.csv'
+        fileName = 'MichaelBennet_Tweets.csv'
         return fileName
     elif candidateName == 'joebiden':
         fileName = 'JoeBiden_Tweets.csv'
@@ -90,7 +93,8 @@ def CSVfilename(candidateName):
         fileName = 'GovBillWeld_Tweets.csv'
         return fileName
     else:
-        print("No candidate recognized, double check the name." )
+        print("No candidate recognized, double check the name.")
+
 
 ###################
 # FILE PROCESSING #
@@ -102,8 +106,8 @@ candidates = ["MichaelBennet", "JoeBiden", "MikeBloomberg", "PeteButtigieg", "Tu
               "AndrewYang", "RealDonaldTrump", "WalshFreedom", "GovBillWeld"]
 
 # Collect tweets into datasets
-#for x in candidates:
- #   getTweets(x)
+# for x in candidates:
+#   getTweets(x)
 
 # Menu and Candidate Choice
 while True:
@@ -112,13 +116,14 @@ while True:
         break
     except ValueError:
         print("That's not a valid name! Try again!")
-    
+
 # Normalizes the name answers and assign files
 candidateName = candidateName.lower().replace(" ", "")
 fileName = CSVfilename(candidateName)
+fileName = "Tweets Scraped/" + fileName
 DataCleaner(fileName)
 
-with open("Tweets Scraped/" + fileName) as csv_file:
+with open(fileName) as csv_file:
     TestData2 = csv.reader(csv_file, delimiter=',')
     for lines in TestData2:
         TweetBox.append(lines[2])
@@ -128,25 +133,14 @@ with open("Tweets Scraped/" + fileName) as csv_file:
         for j in range(0, len(wordsAdding)):
             WordBox.append(wordsAdding[j].lower())
             WordBox[j].lower()
-            
+
     # Removes the excluded words from the dictionary (ie articles and auxiallary verbs) 
     WordBox = ExclusionDictionary.removeExcluded(WordBox, ExclusionDictionary.excludedDictionary)
-    
+
     candidateDictionary = WordCounter(WordBox)
-    
+
     for word in candidateDictionary:
-        for occurence in range (0, candidateDictionary[word]):
-            wordMap +=  (word + " ")
-        
-    #print(wordMap)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        for occurrence in range(0, candidateDictionary[word]):
+            wordMap += (word + " ")
+
+    # print(wordMap)
