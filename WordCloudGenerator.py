@@ -5,7 +5,7 @@ from os import path
 from PIL import Image
 import matplotlib.pyplot as plt
 import wordcloud
-from ElectRobo import wordMap, imageName
+from ElectRobo import wordMap, imageName, candidateName
 
 # old
 # DataFrame = pd.read_csv("SampleCSV.csv")
@@ -23,7 +23,7 @@ imageColors = wordcloud.ImageColorGenerator(mask)
 AK = wordcloud.WordCloud(background_color="white", mask=mask, contour_color='firebrick', contour_width=3,
                          max_words=1000000)
 AK.generate(wordMap)
-AK.to_file("YandrewAang.png")
+AK.to_file('WordClouds/' + candidateName + '_WordCloud.png')
 
 plt.imshow(AK, interpolation='bilinear')
 plt.axis("off")
