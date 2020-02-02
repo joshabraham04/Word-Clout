@@ -7,7 +7,7 @@ import ExclusionDictionary
 from TweetScraper import getTweets
 from textblob import TextBlob
 
-# Library that seperates strings into individual words
+# Library that separates strings into individual words
 TweetBlob = TextBlob
 
 tweetCount = 0
@@ -16,7 +16,6 @@ WordBox = []
 fileName = ""  
 imageName=""
 wordMap = ""
-appCycle = True  
 
 ###########
 # METHODS #
@@ -98,7 +97,7 @@ def CSVfilename(candidateName):
         fileName = 'GovBillWeld_Tweets.csv'
         return fileName
     else:
-        print("No candidate recognized, double check the name." )
+        print("No candidate recognized, double check the name.")
 
 # Parses through presidential candidates and retrieves image files        
 def imageProcessor(candidateName):
@@ -160,21 +159,21 @@ candidates = ["MichaelBennet", "JoeBiden", "MikeBloomberg", "PeteButtigieg", "Tu
 # Menu, Collection of Tweets and Candidate Choice
 print()
 print("Welcome to the 2020 Presidential Candidates' \"Word Clout\"")
-print("A comprehensive word cloud graphic of each candidate's values")
-collectTweets = input("Would you like to collect presidential tweets? It may take a few minutes:" + "(" + "yes/no?" + ") ")
+print("A comprehensive word cloud generator of each candidate's tweets")
+collectTweets = input("Would you like to collect the latest presidential tweets? It may take a few minutes: " + "(" + "type yes/no" + ") ")
 print()
 if collectTweets == 'yes':
     for x in candidates:
         getTweets(x)
         
-candidateName = input("Choose your candidate (type exit to terminate): ")
-if candidateName == 'exit':
-    appCycle = False
+candidateName = input("Choose your candidate: ")
+
     
 # Normalizes the name answers and assign files
 candidateName = candidateName.lower().replace(" ", "")
 fileName = CSVfilename(candidateName)
 imageName = imageProcessor(candidateName)
+fileName = 'Tweets Scraped/' + fileName
 DataCleaner(fileName)
     
 with open(fileName) as csv_file:
@@ -194,5 +193,5 @@ WordBox = ExclusionDictionary.removeExcluded(WordBox, ExclusionDictionary.exclud
 candidateDictionary = WordCounter(WordBox)
         
 for word in candidateDictionary:
-    for occurence in range (0, candidateDictionary[word]):
-        wordMap +=  (word + " ")
+    for occurrence in range (0, candidateDictionary[word]):
+        wordMap += (word + " ")
