@@ -5,6 +5,7 @@ from os import path
 from PIL import Image
 import matplotlib.pyplot as plt
 import wordcloud
+from ElectRobo import wordMap
 
 
 DataFrame = pd.read_csv("SampleCSV.csv")
@@ -14,16 +15,16 @@ fruit = DataFrame.groupby("name")
 fruit.describe().head()
 fruit.mean().sort_values(by="number", ascending=False).head()
 text = DataFrame.fruit[2]
-print(text)
-mask = np.array(Image.open("AmyKlobuchar.png"))
+#print(text)
+mask = np.array(Image.open("Masks/AndrewYang.png"))
 mask
 
 
 imageColors = wordcloud.ImageColorGenerator(mask)
 
 AK = wordcloud.WordCloud(background_color="white", mask=mask, contour_color='firebrick', contour_width=3,max_words=1000000)
-AK.generate(text)
-AK.to_file("AmyKlobuchar.png")
+AK.generate(wordMap)
+AK.to_file("YandrewAang.png")
 
 plt.imshow(AK, interpolation='bilinear')
 plt.axis("off")

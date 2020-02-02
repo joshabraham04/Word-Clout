@@ -1,21 +1,9 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Feb  1 10:58:11 2020
-
-@author: Josh Abraham
-"""
-
 import tweepy
 import csv
 import json
 
-# List of 2020 presidential candidates
-candidates = ["MichaelBennet", "JoeBiden", "MikeBloomberg", "PeteButtigieg", "TulsiGabbard",
-              "AmyKlobuchar", "DevalPatrick", "BernieSanders", "TomSteyer", "EWarren",
-              "AndrewYang", "RealDonaldTrump", "WalshFreedom", "GovBillWeld"]
-
 # load Twitter API credentials
-with open('C:/Users/Josh Abraham/Desktop/SwampHacks/Twitter Analysis/TwitterCredentials.json') as cred_data:
+with open('C:/Users/Josh Abraham/Desktop/SwampHacks/Twitter Analysis/Twitter-Politics-WebScraper/TwitterCredentials.json') as cred_data:
     info = json.load(cred_data)
     consumer_key = info['Consumer_Key']
     consumer_secret = info['Consumer_Secret']
@@ -33,7 +21,7 @@ def getTweets(screenName):
     tweetList = []
     
     # We will get the tweets with multiple requests of 200 tweets each
-    newTweets = api.user_timeline(screen_name=screenName, count=200)
+    newTweets = api.user_timeline(screen_name=screenName, tweet_mode='extended', count=200)
     
     # saving the most recent tweets
     tweetList.extend(newTweets)
@@ -46,7 +34,7 @@ def getTweets(screenName):
     while len(newTweets):
         
         # The max_id param will be used subsequently to prevent duplicates
-        newTweets = api.user_timeline(screen_name=screenName, count=200, max_id=oldestTweet)
+        newTweets = api.user_timeline(screen_name=screenName, tweet_mode='extended', count=200, max_id=oldestTweet)
         
         # save most recent tweets
         tweetList.extend(newTweets)
@@ -55,14 +43,10 @@ def getTweets(screenName):
         oldestTweet = tweetList[-1].id - 1
         
         # transforming the tweets into a 2D array that will be used to populate the csv
-        outTweets = [[tweet.id_str, tweet.created_at,
-        tweet.text.encode('utf8')] for tweet in tweetList]
+        outTweets = [[tweet.id_str, tweet.created_at, tweet.full_text] for tweet in tweetList]
     
-        # writing to the csv file
+        #writing to the csv file
         with open(screenName + '_Tweets.csv', 'w', encoding='utf8') as f:
             writer = csv.writer(f)
             writer.writerow(['ID', 'Timestamp', 'Content'])
             writer.writerows(outTweets)
-            
-for x in candidates:
-    getTweets(x)
