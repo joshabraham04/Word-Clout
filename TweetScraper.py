@@ -46,7 +46,7 @@ def getTweets(screenName):
         outTweets = [[tweet.id_str, tweet.created_at, tweet.full_text] for tweet in tweetList]
     
         #writing to the csv file
-        with open(screenName + '_Tweets.csv', 'w', encoding='utf8') as f:
+        with open('Tweets Scraped/' + screenName + '_Tweets.csv', 'w', encoding='utf8') as f:
             writer = csv.writer(f)
             writer.writerow(['ID', 'Timestamp', 'Content'])
             writer.writerows(outTweets)
