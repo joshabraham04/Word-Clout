@@ -118,7 +118,7 @@ candidateName = candidateName.lower().replace(" ", "")
 fileName = CSVfilename(candidateName)
 DataCleaner(fileName)
 
-with open(fileName) as csv_file:
+with open("Tweets Scraped/" + fileName) as csv_file:
     TestData2 = csv.reader(csv_file, delimiter=',')
     for lines in TestData2:
         TweetBox.append(lines[2])
