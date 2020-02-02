@@ -5,7 +5,7 @@ from os import path
 from PIL import Image
 import matplotlib.pyplot as plt
 import wordcloud
-from ElectRobo import wordMap
+from ElectRobo import wordMap, imageName
 
 # old
 # DataFrame = pd.read_csv("SampleCSV.csv")
@@ -16,7 +16,7 @@ from ElectRobo import wordMap
 # fruit.mean().sort_values(by="number", ascending=False).head()
 # text = DataFrame.fruit[2]
 
-mask = np.array(Image.open("Masks/AndrewYang.png"))
+mask = np.array(Image.open("Masks/" + imageName))
 
 imageColors = wordcloud.ImageColorGenerator(mask)
 
